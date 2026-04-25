@@ -1,45 +1,49 @@
 # Owl
 
 Owl is a portable [Wayland] compositor written in Objective-C, using Cocoa as
-its backend. Owl primarily targets Mac OS X, but also supports a variety of
-other operating systems thanks to [GNUstep].
+its backend. Owl primarily targets macOS, but also supports other operating
+systems via [GNUstep].
 
 [Wayland]: https://wayland.freedesktop.org/
 [GNUstep]: http://www.gnustep.org/
 
-Owl makes it possible to run Wayland clients inside OS X's native Quartz
-graphics environment. In that sense, Owl plays a role similar to the [XQuartz]
-and [XWayland] compatibility layers.
+Owl makes it possible to run Wayland clients inside macOS's native Quartz
+graphics environment, similar to [XQuartz] for X11.
 
 [XQuartz]: https://www.xquartz.org/
-[XWayland]: https://wayland.freedesktop.org/xserver.html
 
-# Work in progress
+## Status
 
-Owl is a work in progress. Some things work, many don't. There's a lot to
-improve and figure out!
+This is a fork with a fixed build system (meson, replacing the old `configure`
+script). The original project is unmaintained.
 
-# Building
+## Building
 
-First, make sure you have Wayland installed. Please see the other repositories
-in [this GitHub organization] for ports of Wayland and related software to
-systems that they don't normally support.
-
-[this GitHub organization]: https://github.com/owl-compositor
-
-To build Owl, create a build directory, then run `configure`, then `make`:
+Prerequisites:
 
 ```
-$ mkdir build
-$ cd build
-$ ../configure
-Owl root directory detected as ..
-$ make
+brew install cmake meson libxkbcommon
 ```
 
-If the build succeeds, you should find `Owl.app` in the build directory.
+Build:
 
-# License
+```
+make
+```
+
+If the build succeeds, you'll find `Owl.app` in `build/Owl.app/`.
+
+Other targets:
+
+```
+make help       # list all targets
+make deps       # build epoll-shim only
+make build      # build Owl only (after deps)
+make clean      # clean Owl build
+make clean-all  # clean everything
+```
+
+## License
 
 Owl is free software, available under the GNU General Public License version 3
 or later.
