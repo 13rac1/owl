@@ -38,14 +38,17 @@
 @implementation OwlServer
 
 - (BOOL) setUpSocket {
-    // Set up a socket on the filesystem that the clients can connect
-    // to when they want to talk to us. Normally, it's placed at a path
-    // like /run/user/1000/wayland-0. Here, /run/user/1000 is the value
-    // of the XDG_RUNTIME_DIR environment variable, and wayland-0 is the
-    // WAYLAND_DISPLAY. libwayland-client tries to automatically pick
-    // an unused display number, but in order for this to work at all,
-    // XDG_RUNTIME_DIR has to be set, and the directory has to exist
-    // at that path, and we shouldbe able to write there.
+    // XDG_RUNTIME_DIR must be set for libwayland to create its socket.
+    // On macOS, this is typically unset. Default to /tmp/owl-<uid>.
+    if (getenv("XDG_RUNTIME_DIR") == NULL) {
+        NSString *dir = [NSString stringWithFormat: @"/tmp/owl-%u", getuid()];
+        [[NSFileManager defaultManager] createDirectoryAtPath: dir
+                                  withIntermediateDirectories: YES
+                                                   attributes: nil
+                                                        error: NULL];
+        setenv("XDG_RUNTIME_DIR", [dir UTF8String], 0);
+    }
+
     const char *socket_name = wl_display_add_socket_auto(_display);
 
     if (socket_name == NULL) {

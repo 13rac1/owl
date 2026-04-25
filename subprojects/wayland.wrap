@@ -1,0 +1,8 @@
+[wrap-git]
+url = https://github.com/13rac1/owl-wayland.git
+revision = bc49b01
+diff_files = wayland-itimerspec-fix.patch
+
+[provide]
+wayland-server = wayland_server_dep
+wayland-client = wayland_client_dep

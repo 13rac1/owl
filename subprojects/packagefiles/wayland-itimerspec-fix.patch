@@ -1,0 +1,13 @@
+diff --git a/meson.build b/meson.build
+index 32958e2..98e282e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -64,7 +64,7 @@ if get_option('libraries')
+
+ 	config_h.set(
+ 		'HAVE_ITIMERSPEC',
+-		cc.has_members('struct itimerspec', 'it_interval', 'it_value', dependencies: epoll_dep)
++		cc.has_members('struct itimerspec', 'it_interval', 'it_value', prefix: '#include <sys/timerfd.h>', dependencies: epoll_dep)
+ 	)
+
+ 	rt_dep = []
